@@ -215,5 +215,5 @@ git config --unset --global user.email #global
 
 <div align="center">
     <img height="500" src="images/git_structure-1.png" />
-    <img height="500" src="images/git_structure-1.png" />
+    <img height="500" src="images/git_structure-2.png" />
 </div>
