@@ -3,6 +3,7 @@
 ## Index
 
 1. [Introduction to Git](#ch-1)
+2. [Basic Git Concepts](#ch-2)
 
 ## Ch-1
 > Introduction to git
@@ -98,10 +99,116 @@ git show-branch branchname
 [master] fix: update learning
 ```
 
-> For more lines you can use `--more=numberoflines`options
+> For more lines you can use `--more=numberoflines` options
 ```bash
 % git show-branch --more=10 master
 
 [master] fix: update learning
 [master^] Initial commit
 ```
+
+#
+
+* You can see differences between to commits using
+
+```bash
+git diff commitnumber commitnumbertwo
+```
+
+> Example
+
+```bash
+git diff 27d883635781888b5bbd60d900865e5174606bd7 b83813f0579a66adce47655160be3018e05d68c7
+```
+
+```bash
+diff --git a/readme.md b/readme.md
+index 8ecff3c..e21e841 100644
+--- a/readme.md
++++ b/readme.md
+@@ -1 +1 @@
+-# LEARNING GIT
+\ No newline at end of file
++# GIT EXAMPLE
+\ No newline at end of file
+```
+
+#
+
+* If you need to remove a file from working tree you can use 
+
+```bash
+git rm file.ext
+```
+
+> after that you can commit your change
+
+#
+
+* If you need to set global user for future commits you can use
+
+```bash
+git config --global user.name "yourname"
+git config --global user.email "youremail"
+```
+
+> If you need to set different user for a repository, you can use
+
+```bash
+git config user.name "yourname"
+git config user.email "youremail"
+```
+
+#
+
+* If you need to see all git settings you can use
+
+```bash
+git config -l
+```
+
+> Example
+
+```bash
+redential.helper=osxkeychain
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+```
+
+#
+
+* You can edit configuration files using your favorite texteditor 
+
+```bash
+nano .git/config
+```
+> Example
+
+```bash
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+        ignorecase = true
+        precomposeunicode = true
+[user]
+        name = alessio
+        email = alessio@lineapp.it
+```
+
+#
+
+* You can delete a settings using
+
+```bash
+git config --unset user.email #this repository
+git config --unset --global user.email #global
+```
+
+## Ch-2
+### Basic Git Concepts
