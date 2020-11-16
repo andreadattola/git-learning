@@ -281,11 +281,144 @@ Then it computes the differences (***delta***) and stores only the differences.
 
 #
 
-* **Object store Pictures**
+* **How Object store works**
 
+> A Triangle rapresents the **blob** object is at the "bottom" of the data structure
 
+> Arrows rapresents **tree** objects points to blobs and possibly to other tress as well.
+
+> A circle reapresents a **commit**, that points to one particular tree
+
+> A Parallelogram rapresents a **tag**, that can point at most at one commit
 
 <div align="center">
-    <img height="500" src="images/ch-2/git-structure-2.png" />
-    <img height="500" src="images/ch-2/git-structure-1.png" />
+    <img height="400" src="images/ch-2/object-store-1.png" />
 </div>
+
+> Diagram above shows the state of a repository after a single, initial commit added two files. Both files are in the top-level directory. Both the master branch and a tag named V1.0 point to the commit with ID 1492.
+
+<div align="center">
+    <img height="500" src="images/ch-2/object-store-2.png" />
+</div>
+
+> This diagram shows the state of the same repository after a single adding a new subdirectory and one file inside of it.
+
+# 
+
+* **Inside .git directory**
+
+If in a new directory you use `git init` for initialize a new git repository, you can list all files using - `find .`
+
+```bash
+$ mkdir tmp
+$ cd tmp
+$ git init
+
+$ find .
+.
+./.git
+./.git/hooks ./.git/hooks/commit-msg.sample ./.git/hooks/applypatch-msg.sample ./.git/hooks/pre-applypatch.sample ./.git/hooks/post-commit.sample ./.git/hooks/pre-rebase.sample ./.git/hooks/post-receive.sample ./.git/hooks/prepare-commit-msg.sample ./.git/hooks/post-update.sample ./.git/hooks/pre-commit.sample ./.git/hooks/update.sample
+./.git/refs
+./.git/refs/heads
+./.git/refs/tags
+./.git/config
+./.git/objects
+./.git/objects/pack ./.git/objects/info
+./.git/description
+./.git/HEAD
+./.git/branches
+./.git/info
+./.git/info/exclude
+```
+
+> Those are all files contained in .git directory (when initialized) and usually you don't have to view or manipulate files inside .git directory (git uses owns commands to do it).
+
+If we create a new object creating a new file and add it to the tree with `git add filename`, the structure will change
+
+```bash
+mkdir example
+echo "hello world" >> example/hello.txt
+#using echo for in-line creating a populate
+git add hello.txt
+```
+
+we can see using `find .` that object subdirectory will be populate with:
+
+```bash
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+```
+
+> When git create an object for hello.txt git doesn't care about the filename, but just the content inside of it, calculating its SHA1 hash and enters it into the object store.
+
+#
+
+* **Files and Trees**
+
+Git index is inside `.git/index` and keeps track of file pathnames and blobs.
+
+You can see what index contains using
+
+```bash
+git ls-files -s
+````
+
+> example with this current project
+
+```bash
+$ git ls-files -s
+
+100644 95d09f2b10159347eece71399a7e2e907ea3df4f 0       example/hello.txt
+100644 254513149d146ec1a1733cd853558690f40551b5 0       images/ch-2/object-store-1.png
+100644 eb4f65c02e9d24bba5d8940cf995e923408d5f6c 0       images/ch-2/object-store-2.png
+100644 b9411719fc85c7657b9b6a7e7ae14f94337b6b89 0       readme.md
+```
+
+#
+
+* **Saving current index**
+
+You can create a tree with the current index using
+
+```bash
+git write-tree
+```
+It creates a tree object using the current index. The name of the new tree object is printed to standard output.
+
+> Example with the current project
+
+```bash
+$ git write-tree
+7328a4dabe7b5f23e1057fd19847527b80965539
+```
+
+> A tree is an object, just like a blob, so we can use the same command to view it
+
+```bash
+$ git cat-file -p 7328a4 #first 6 digits of the sha
+
+040000 tree e8c3bcec01ac3c2ea41249cdfc8c4493d9c29836    example
+040000 tree ca354ddaac52afd5aea76db0f2d8bc9703b79c8d    images
+100644 blob b9411719fc85c7657b9b6a7e7ae14f94337b6b89    readme.md
+```
+
+> Referring the hello.txt file
+
+```bash
+$ git cat-file -p e8c3bc
+
+100644 blob 95d09f2b10159347eece71399a7e2e907ea3df4f    hello.txt
+```
+
+> The first number (100644) rapresents the file attributes of the object in octal
+
+> The second part (blob) rapresents the object type 
+
+>  The third part (95d09f2b10159347eece71399a7e2e907ea3df4f) is the sha1 hash
+
+> The fourth part (hello.txt) is the file name
+
+It is now easy to see that the tree object has captured the information that was in the index when you ran `git ls-files -s`.
+
+* **Commits**
+
