@@ -632,3 +632,84 @@ Here there is not "ignored_folder/ignored_file.txt" untracked file, even if it i
 
 > This is possible using .gitignore
 
+#
+
+* **Notes on git commit**
+
+1. > **git commit -a (--all)**: causes it to automatically stage all unstaged, tracked file changes—including removals of tracked files from the working copy— before it performs the commit.
+```bash
+git commit -am 'commit message'
+```
+
+same as
+
+```bash
+git add .
+git commit -m 'commit message'
+```
+
+#
+
+* **git rm**
+
+The command `git rm` is the inverse of `git add`.
+
+> It removes a file from both **the repository** and **the working directory**.
+
+```bash
+echo "sample file" >> sample.txt
+git add sample.txt
+git commit sample.txt -m "feat: add sample.txt"
+git rm sample.txt #output: rm 'sample.txt'
+git status
+#output: On branch master
+#Your branch is ahead of 'origin/master' by 1 commit.
+#  (use "git push" to publish your local commits)
+#
+#Changes to be committed:
+#  (use "git restore --staged <file>..." to unstage)
+#        deleted:    sample.txt
+#
+#Changes not staged for commit:
+#  (use "git add <file>..." to update what will be committed)
+#  (use "git restore <file>..." to discard changes in working directory)
+#        modified:   readme.md
+
+git commit -m "fix: deleted sample.txt"      
+#output: [master 110f96b] fix: deleted sample.txt
+# 1 file changed, 1 deletion(-)
+# delete mode 100644 sample.txt
+```
+
+> Git rm doesn't remove an untracked file
+
+```bash
+echo "sample" >> sample.txt
+git rm sample.txt
+#output: fatal: pathspec 'sample.txt' did not match any files
+git status
+#On branch master
+#Your branch is ahead of 'origin/master' by 2 commits.
+#  (use "git push" to publish your local commits)
+#
+#Changes not staged for commit:
+#  (use "git add <file>..." to update what will be committed)
+#  (use "git restore <file>..." to discard changes in working directory)
+#        modified:   readme.md
+#
+#Untracked files:
+#  (use "git add <file>..." to include in what will be committed)
+#        sample.txt
+#
+#no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+To convert a file from **staged** to **unstaged** we can use
+
+```bash
+git add sample.txt #now file is staged
+git rm --cached sample.txt
+#output: rm 'sample.txt'
+```
+
+> git rm --cached removes the file from the index and leaves it in the working directory
