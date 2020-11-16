@@ -3,8 +3,8 @@
 ## Index
 
 1. [Introduction to Git](#ch-1)
-2. [Basic Git Concepts](#ch-2)
-
+2. [Basic Git Concepts (optional chapter)](#ch-2)
+3. [File Management and Index](#ch-3)
 ## Ch-1
 > Introduction to git
 
@@ -210,7 +210,7 @@ git config --unset user.email #this repository
 git config --unset --global user.email #global
 ```
 ## Ch-2
-### Basic Git Concepts
+### Basic Git Concepts (OPTIONAL)
 
 * **Git Object Types**
 
@@ -422,3 +422,71 @@ It is now easy to see that the tree object has captured the information that was
 
 * **Commits**
 
+You can create a commit using low-level command
+
+```bash
+echo -n "Commit hello.txt \n" \
+| git commit-tree f399deface19ff7fef9396ab6e733db02569b68a
+
+# echo -n "commit message \n" | git commit-tree tree-hash
+
+749850854474a45dd88e76ebee0bfe3ac0a82f8b #output
+```
+
+> We can see the result using `git cat-file -p hashoutput`
+
+```bash
+$ git cat-file -p 749850854474a45dd88e76ebee0bfe3ac0a82f8b
+
+#output
+committer kettei-sproutty <alessio@lineapp.it> 1605533680 +0100
+
+Commit hello.txt 
+```
+
+#
+
+* **tags**
+
+There are two king of tag object
+1. lightweight
+2. annotated
+
+| Type        | Description                  | Permanent |
+|-------------|------------------------------|-----------|
+| lightweight | Reference to a commit-object |   false   |
+| annotated   | Contains a message           |    true   |
+
+You can create an annotated tag using `git tag -m "Tag message" Vversionnumber shorthash(6digit)`
+
+```bash
+git tag -m "Tag version 1.0" V1.0 749850
+```
+
+> you can see the hash using `git rev-parse version-tag`
+
+```bash
+$ git rev-parse V1.0
+45cfd2393c37568eeb163588df30d446ddb14500
+```
+
+> and print the output using `git cat-file`
+
+```bash
+$ git cat-file -p 45cfd23
+
+object 749850854474a45dd88e76ebee0bfe3ac0a82f8b
+type commit
+tag V1.0
+tagger kettei-sproutty <alessio@lineapp.it> 1605534119 +0100
+
+Tag version 1.0
+```
+
+> In addition to the log message and author information, the tag refers to the commit object 749850
+
+#
+
+# Ch-3
+
+## File managment and Index
