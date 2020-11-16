@@ -209,11 +209,83 @@ nano .git/config
 git config --unset user.email #this repository
 git config --unset --global user.email #global
 ```
-
 ## Ch-2
 ### Basic Git Concepts
 
+* **Git Object Types**
+
+Git have something called "object store". It contains original data files and log messages, author information, dates and other informations.
+
+Git have four types of objects:
+
+| Object Type 	| Description                                                   	| Contains                                        	|
+|-------------	|---------------------------------------------------------------	|-------------------------------------------------	|
+| Blob        	| Rapresented by each version of a file                         	| File data but not metadata                      	|
+| Tree        	| Represents one level of directory information.                	| blob identifiers, path names                    	|
+| Commit      	| Holds metadata for each change introduced into the repository 	| author, committer, commit date, and log message 	|
+| Tag         	| Hhuman readable name to a specific object                     	| Readable Version, such as: version 2.0          	|
+
+For save space over time (when project grows) git compress and stores objects in pack files.
+
+#
+
+* **Index**
+
+Index is a temponary and dynamic binary file that describes the directory structure of the repository
+
+Target is to use "git commands" to **Stage** all changes in the index
+
+> Changes on files that needs **stage** are:
+> * Add
+> * Delete
+> * Edit
+> * Create
+
+#
+
+* **Content-Addresable Names**
+
+Each object in the **object store** has an unique name produced applying SHA1 to the contents of the object
+
+> Every change causes the SHA1 has to change
+
+Sometimes during display 160bit hash values are abbreviated to a smallar one.
+
+`example: commits`
+
+#
+
+* **Global Unique Identifiers**
+
+Same files in different directories have exactly the same SHA1.
+That means that same code can be compared with SHA1
+
+#
+
+* **Git Tracks Content**
+
+> Git is a *Content Tracking System*
+
+1. Git object store is based on hashed computation of the file
+2. Git internal database stores every version of every file (not only the differences).
+
+#
+
+* **Pack files**
+
+Git uses a efficient storage mechanism called a *pack file*.
+To create a packed file, git find two files with very similar content and store the content for only one of them.
+Then it computes the differences (***delta***) and stores only the differences.
+
+> Packed files are stored in the object store alongside the other objects.
+
+#
+
+* **Object store Pictures**
+
+
+
 <div align="center">
-    <img height="500" src="images/git_structure-1.png" />
-    <img height="500" src="images/git_structure-2.png" />
+    <img height="500" src="images/ch-2/git-structure-2.png" />
+    <img height="500" src="images/ch-2/git-structure-1.png" />
 </div>
