@@ -5,6 +5,8 @@
 1. [Introduction to Git](#ch-1)
 2. [Basic Git Concepts (optional chapter)](#ch-2)
 3. [File Management and Index](#ch-3)
+4. [Commits](#ch-4)
+
 ## Ch-1
 > Introduction to git
 
@@ -713,3 +715,24 @@ git rm --cached sample.txt
 ```
 
 > git rm --cached removes the file from the index and leaves it in the working directory
+
+
+# Ch-4
+
+## Commits
+
+> In git, a **commit** is used to record changes to a repository.
+
+When a commit occurs, Git records a snapshot of the index and places that snapshot in the object store. This snapshot does not contain a copy of every file and directory in the index.
+
+Git creates new blobs ([chapter2 ](#ch-2)) for any file that has changed and new trees for any directory that has changed, and it reuses any blob or tree object that has not changed.
+
+> However, don’t hesitate to introduce commits! Git is wellsuited to frequent commits and provides a rich set of commands for manipulating them.
+
+* **Identifying commits**
+
+In Git, you can refer to every commit via an explicit or an implied reference
+
+1. > **Absolute Commit Names**: Each commit ID is globally unique, not just for one repository but for any and all repositories. Although a tag name isn’t a globally unique name, it is absolute in that it points to a unique commit and doesn’t change over time (unless you explicitly change it, of course).
+
+2. > **Syntax**: git commit [-a | filenames] [-m "message"]
