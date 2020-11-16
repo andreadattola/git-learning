@@ -490,3 +490,32 @@ Tag version 1.0
 # Ch-3
 
 ## File managment and Index
+
+* **What does the index do**
+
+Git's index doesn't container any file content, it just track what you want to commit.
+
+> When you run `git commit`, git checks the index and not working directory.
+
+It's possible to query the index using:
+
+```bash
+git status
+
+#output
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+```
+
+> `git status` prints what git considers staged
+
+# 
+
+* **Git diff**
+
+> `Git diff` displays the change that remain in your working directory and are not staged.
+
+> `git diff --cached` shows the differences that are staged
+
