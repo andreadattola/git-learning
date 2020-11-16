@@ -734,5 +734,11 @@ Git creates new blobs ([chapter2 ](#ch-2)) for any file that has changed and new
 In Git, you can refer to every commit via an explicit or an implied reference
 
 1. > **Absolute Commit Names**: Each commit ID is globally unique, not just for one repository but for any and all repositories. Although a tag name isn’t a globally unique name, it is absolute in that it points to a unique commit and doesn’t change over time (unless you explicitly change it, of course).
+2. > **Description**: Create a new commit containing the current contents of the index and the given log message describing the changes. The new commit is a direct child of HEAD, usually the tip of the current branch, and the branch is updated to point to it.
+3. > **Syntax**: git commit [-a | filenames] [-m "message"]
+4. > **Output**: `[currentbranch sha1-shorter] commit message`
+5. > **Analyze**: `git cat-file -p sha1-shorter`
 
-2. > **Syntax**: git commit [-a | filenames] [-m "message"]
+## Refs and symrefs
+
+1. > A ref
