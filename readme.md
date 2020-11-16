@@ -519,3 +519,116 @@ nothing to commit, working tree clean
 
 > `git diff --cached` shows the differences that are staged
 
+```bash
+$ git diff
+
+diff --git a/readme.md b/readme.md
+index 482bcd5..75d9ad3 100644
+--- a/readme.md
++++ b/readme.md
+@@ -489,4 +489,33 @@ Tag version 1.0
+ 
+ # Ch-3
+ 
+-## File managment and Index
+\ No newline at end of file
++## File managment and Index
++
++* **What does the index do**
++
++Git's index doesn't container any file content, it just track what you want to commit.
++
++> When you run `git commit`, git checks the index and not working directory.
++
++It's possible to query the index using:
++
++```bash
++git status
++
++#output
++On branch master
++Your branch is up to date with 'origin/master'.
+```
+
+```bash
+$ git diff --cached
+
+#empty output
+```
+
+after run: `git add readme.md`
+
+```bash
+$ git diff --cached
+diff --git a/readme.md b/readme.md
+index 75d9ad3..4a42d1f 100644
+--- a/readme.md
++++ b/readme.md
+@@ -519,3 +519,42 @@ nothing to commit, working tree clean
+ 
+ > `git diff --cached` shows the differences that are staged
+ 
++```bash
++$ git diff
++
++diff --git a/readme.md b/readme.md
++index 482bcd5..75d9ad3 100644
++--- a/readme.md
+++++ b/readme.md
++@@ -489,4 +489,33 @@ Tag version 1.0
++ 
++ # Ch-3
++ 
++-## File managment and Index
++\ No newline at end of file
+++## File managment and Index
+++
+++* **What does the index do**
+++
+++Git's index doesn't container any file content, it just track what you want to commit.
+```
+
+#
+
+* **File classification in git**
+
+| Type      | Description                                      | Command                |
+|-----------|--------------------------------------------------|------------------------|
+| tracked   | File already present in the repository or staged | git add filename       |
+| ignored   | Files ignored or hidden                          | add them in .gitignore |
+| untracked | Neither tracked and ignored                      |                        |
+
+
+> After a git init there are no file (tracked, untracked and ignored)
+
+You can set ignored files create a `.gitignore` file:
+
+```bash
+$ git status
+
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   readme.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   readme.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+```
+
+Here there is not "ignored_folder/ignored_file.txt" untracked file, even if it is inside our project
+
+<div align="center">
+    <img src="images/ch-3/ignored.png" />
+</div>
+
+> This is possible using .gitignore
+
